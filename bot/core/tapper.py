@@ -20,7 +20,6 @@ from datetime import datetime, timezone
 import pytz
 from random import randint
 
-
 class Tapper:
     def __init__(self, tg_client: Client):
         self.session_name = tg_client.name
@@ -225,6 +224,11 @@ class Tapper:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Proxy: {proxy} | Error: {error}")
 
     async def run(self, proxy: str | None) -> None:
+        if settings.USE_RANDOM_DELAY_IN_RUN:
+                random_delay = randint(settings.RANDOM_DELAY_IN_RUN[0], settings.RANDOM_DELAY_IN_RUN[1])
+                logger.info(f"{self.session_name} | Bot will start in <y>{random_delay}s</y>")
+                await asyncio.sleep(random_delay)
+
         proxy_conn = ProxyConnector().from_url(proxy) if proxy else None
 
         http_client = CloudflareScraper(headers=headers, connector=proxy_conn)

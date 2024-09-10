@@ -1,7 +1,6 @@
-version: '1'
 services:
   bot:
-    container_name: 'CubesBot'
+    container_name: "DiamoreCoBot"
     build:
       context: .
     stop_signal: SIGINT
